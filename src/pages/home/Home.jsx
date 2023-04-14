@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import { fetchTrendingMovies } from 'services/api';
+import { HomeContainer, HomeTitle, MovieLink } from './Home.styled';
 
 const Home = () => {
   const [movies, setMovies] = useState([]);
@@ -32,21 +33,21 @@ const Home = () => {
   }
   if (status === 'resolved') {
     return (
-      <>
-        <h1>Trending today</h1>
+      <HomeContainer>
+        {' '}
+        <HomeTitle>Trending today</HomeTitle>
         <ul>
           {movies.map(movie => {
-            // console.log(movie);
             return (
               <li key={movie.id}>
-                <Link to={`movies/${movie.id}`} state={{ from: location }}>
+                <MovieLink to={`movies/${movie.id}`} state={{ from: location }}>
                   {movie.title}
-                </Link>
+                </MovieLink>
               </li>
             );
           })}
         </ul>
-      </>
+      </HomeContainer>
     );
   }
 };

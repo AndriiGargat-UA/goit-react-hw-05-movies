@@ -1,7 +1,16 @@
 import { Suspense, useEffect, useRef, useState } from 'react';
-import { Link, Outlet, useLocation, useParams } from 'react-router-dom';
+import { Outlet, useLocation, useParams } from 'react-router-dom';
 import { fetchMovieDetails } from 'services/api';
 import poster from 'images/poster-not-found.png';
+import {
+  MovieDetailsContainer,
+  BackLink,
+  MoviePoster,
+  MovieTitle,
+  MovieContainer,
+  DetailsTitle,
+  DetailsLink,
+} from './MovieDetails.styled';
 
 const MovieDetails = () => {
   const [movie, setMovie] = useState([]);
@@ -40,41 +49,48 @@ const MovieDetails = () => {
       movie;
 
     return (
-      <div>
-        <Link to={backLinkLocationRef.current}>Go back</Link>
-        {poster_path ? (
-          <img src={`${POSTER_PATH}${poster_path}`} alt="movie poster" />
-        ) : (
-          <img src={poster} alt="movie poster" />
-        )}
+      <MovieDetailsContainer>
+        <BackLink to={backLinkLocationRef.current}>Go back</BackLink>
 
-        <h2>
-          {title} ({release_date.slice(0, 4)})
-        </h2>
-        <p>User Score: {Math.round(vote_average * 10)} %</p>
+        <MovieContainer>
+          {poster_path ? (
+            <MoviePoster
+              src={`${POSTER_PATH}${poster_path}`}
+              alt="movie poster"
+            />
+          ) : (
+            <MoviePoster src={poster} alt="movie poster" />
+          )}
 
-        <h3>Overview</h3>
-        <p>{overview}</p>
-        <h3>Genres</h3>
-        <ul>
-          {genres.map(genre => {
-            return <li key={genre.id}>{genre.name}</li>;
-          })}
-        </ul>
+          <div>
+            <MovieTitle>
+              {title} ({release_date.slice(0, 4)})
+            </MovieTitle>
+            <p>User Score: {Math.round(vote_average * 10)} %</p>
+            <DetailsTitle>Overview</DetailsTitle>
+            <p>{overview}</p>
+            <DetailsTitle>Genres</DetailsTitle>
+            <ul>
+              {genres.map(genre => {
+                return <li key={genre.id}>{genre.name}</li>;
+              })}
+            </ul>
+          </div>
+        </MovieContainer>
 
-        <h3>Additional information</h3>
+        <DetailsTitle>Additional information</DetailsTitle>
         <ul>
           <li>
-            <Link to="cast">Cast</Link>
+            <DetailsLink to="cast">Cast</DetailsLink>
           </li>
           <li>
-            <Link to="reviews">Reviews</Link>
+            <DetailsLink to="reviews">Reviews</DetailsLink>
           </li>
         </ul>
         <Suspense fallback={<div>Loading...</div>}>
           <Outlet />
         </Suspense>
-      </div>
+      </MovieDetailsContainer>
     );
   }
 };

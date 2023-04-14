@@ -2,6 +2,7 @@ import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { fetchMovieCredits } from 'services/api';
 import avatarNotFound from 'images/profile-not-found.png';
+import { CastList, ActorAvatar } from './Cast.styled';
 
 const Cast = () => {
   const [cast, setCast] = useState([]);
@@ -39,18 +40,18 @@ const Cast = () => {
       return <p>Sorry, we don't have any cast for this movie</p>;
     }
     return (
-      <ul>
+      <CastList>
         {cast.map(actor => {
           const { id, profile_path, name, character } = actor;
           return (
             <li key={id}>
               {profile_path ? (
-                <img
+                <ActorAvatar
                   src={`${PROFILE_PATH}${profile_path}`}
                   alt="profile avatar"
                 />
               ) : (
-                <img src={avatarNotFound} alt="profile avatar" />
+                <ActorAvatar src={avatarNotFound} alt="profile avatar" />
               )}
 
               <p>{name}</p>
@@ -58,7 +59,7 @@ const Cast = () => {
             </li>
           );
         })}
-      </ul>
+      </CastList>
     );
   }
 };

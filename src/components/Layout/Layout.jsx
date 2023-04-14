@@ -1,19 +1,21 @@
 // import MovieDetails from 'pages/MovieDetails/MovieDetails';
-import { NavLink, Outlet } from 'react-router-dom';
-import MainLayout from './Layout.styled';
+import { Outlet } from 'react-router-dom';
+import { MainLayout, MainMenu, NavBar, BarLink } from './Layout.styled';
 import { Suspense } from 'react';
 
 const Layout = () => {
   return (
     <MainLayout>
-      <ul>
-        <li>
-          <NavLink to="/">Home</NavLink>
-        </li>
-        <li>
-          <NavLink to="/movies">Movies</NavLink>
-        </li>
-      </ul>
+      <MainMenu>
+        <NavBar>
+          <li>
+            <BarLink to="/">Home</BarLink>
+          </li>
+          <li>
+            <BarLink to="/movies">Movies</BarLink>
+          </li>
+        </NavBar>
+      </MainMenu>
 
       <main>
         <Suspense fallback={<div>Loading...</div>}>

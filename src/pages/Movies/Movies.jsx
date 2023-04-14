@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
-import { Link, useLocation, useSearchParams } from 'react-router-dom';
+import { useLocation, useSearchParams } from 'react-router-dom';
 import { fetchMovieSearch } from 'services/api';
+import { MoviesContainer, MovieLink, SearchInput } from './Movies.styled';
 
 const Movies = () => {
   const [movies, setMovies] = useState([]);
@@ -46,9 +47,9 @@ const Movies = () => {
 
   if (status === 'resolved') {
     return (
-      <div>
+      <MoviesContainer>
         <form onSubmit={handleSubmit}>
-          <input type="text" name="query" />
+          <SearchInput type="text" name="query" />
           <button type="submit">Search</button>
         </form>
 
@@ -57,22 +58,25 @@ const Movies = () => {
             const { id, title } = movie;
             return (
               <li key={id}>
-                <Link to={`${id}`} state={{ from: location }}>
+                <MovieLink to={`${id}`} state={{ from: location }}>
                   {title}
-                </Link>
+                </MovieLink>
               </li>
             );
           })}
         </ul>
-      </div>
+      </MoviesContainer>
     );
   }
 
   return (
-    <form onSubmit={handleSubmit}>
-      <input type="text" name="query" />
-      <button type="submit">Search</button>
-    </form>
+    <MoviesContainer>
+      {' '}
+      <form onSubmit={handleSubmit}>
+        <input type="text" name="query" />
+        <button type="submit">Search</button>
+      </form>
+    </MoviesContainer>
   );
 };
 
